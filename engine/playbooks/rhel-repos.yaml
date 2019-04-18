@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+      - name: make shell more friendly
+        blockinfile:
+          path: ~/.bashrc
+          block: |
+            # history navigation with arrows
+            bind '"\e[A":history-search-backward'
+            bind '"\e[B":history-search-forward'
+          insertafter: EOF
+      - name: make containers more friendly
+        shell: |
+            for el in $(docker ps --format '{''{.Names}''}')
+            do
+                docker cp /etc/yum.repos.d/rhos-release-13.repo  $el:/etc/yum.repos.d/rhos-release-13.repo
+                docker cp /etc/yum.repos.d/rhos-release-rhel-7.6.repo $el:/etc/yum.repos.d/rhos-release-rhel-7.6.repo
+                docker exec -it $el
+            done

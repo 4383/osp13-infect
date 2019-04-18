@@ -1,27 +1,17 @@
 #!/bin/bash
-cd /home/stack
-
-yum install -y vim gdb
+BASEDIR=$(pwd)
 
 cd /home/stack
-mkdir ~/.ssh | /bin/true
-chmod 0700 ~/.ssh
+echo ${BASEDIR}
+source stackrc;
 
-cat >> ~/.ssh/config <<EOF
-Host *
-  User heat-admin
-  StrictHostkeyChecking no
-  UserKnownHostsFile /dev/null
+cat <<'EOF' >>~/.bashrc
+# history navigation with arrows
+bind '"\e[A":history-search-backward'
+bind '"\e[B":history-search-forward'
 EOF
-chmod 600 ~/.ssh/config
 
-CONTROLLERS=$(nova list | grep "controller")
-echo "[controllers]" > /etc/ansible/hosts
-for controller in "${CONTROLLERS}"
-do
-    name=$(${controller} | awk '{print $6}')
-    ip=$(${controller} | awk '{print $12}' | awk -F "=" '{print $2}')
-    echo "${name} ansible_host=${ip} ansible_user=heat-admin" >> /etc/ansible/hosts
-done
+sudo cat /etc/ansible/hosts
 
 ansible all -m ping
+ansible-playbook ${BASEDIR}/playbooks/rhel-repos.yaml
