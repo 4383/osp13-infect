@@ -1,0 +1,17 @@
+pcs is on overcloud => ssh -l heat-admin 192.168.24.15
+
+example:
+```shell
+(undercloud) [stack@undercloud-0 ~]$ !19
+ssh -l heat-admin 192.168.24.15
+Last login: Wed Apr  3 14:49:14 2019 from 192.168.24.1
+[heat-admin@controller-0 ~]$ history
+    1  sudo -i
+    2  history
+[heat-admin@controller-0 ~]$ sudo -i
+[root@controller-0 ~]# history
+    1  pcs status
+    2  # is that what you were looking for?
+    3  history
+[root@controller-0 ~]# 
+```

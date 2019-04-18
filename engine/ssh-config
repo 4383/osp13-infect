@@ -1,0 +1,9 @@
+Host *
+  StrictHostkeyChecking no
+  UserKnownHostsFile /dev/null
+
+Host undercloud
+Hostname undercloud-0
+User root
+Port 22
+Protocol 2
