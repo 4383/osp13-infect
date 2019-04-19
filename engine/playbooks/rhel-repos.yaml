@@ -46,5 +46,5 @@
       - name: install containers apps
         shell: |
             source /usr/bin/containers.sh
-            infect_configure_containers_repos
+            infect_install_base_apps_on_containers
         become: yes
