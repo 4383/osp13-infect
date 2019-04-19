@@ -6,11 +6,11 @@ function infect_configure_containers_repos () {
     for container in $(infect_list_containers)
     do
         echo "Infect ${container}"
-        docker exec -it ${container} rm -rf /etc/yum.repos.d
-        docker exec -it ${container} mkdir /etc/yum.repos.d
+        docker exec --user root -it ${container} rm -rf /etc/yum.repos.d
+        docker exec --user root -it ${container} mkdir /etc/yum.repos.d
         current=$(pwd)
         cd /etc/
-        tar -c -v -f - /etc/yum.repos.d | docker exec -i ${container} bash -c 'tar -x -v --strip-components 1 --directory=/etc/ ' -
+        tar -c -v -f - /etc/yum.repos.d | docker exec --user root -i ${container} bash -c 'tar -x -v --strip-components 1 --directory=/etc/ ' -
         cd $current
     done
 }
@@ -18,7 +18,7 @@ function infect_configure_containers_repos () {
 function infect_install_base_apps_on_containers () {
     for container in $(infect_list_containers)
     do
-        docker exec -it ${container} yum install -y git
+        docker exec --user root -it ${container} yum install -y git
     done
 }
 
