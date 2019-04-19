@@ -5,6 +5,8 @@ SSH="ssh -t -F $SSHCONF undercloud"
 SCP="scp -F $SSHCONF"
 
 python -m pip install niet
+${SCP} engine/bashrc undercloud:/root/
+${SSH} 'cat /root/bashrc >> ~/.bashrc'
 ${SSH} 'yum install -y vim git gdb bash ansible'
 ${SSH} 'git clone https://github.com/openuado/niet.git && cd niet && python setup.py install'
 ${SSH} 'su - stack bash -l -c "test -d osp13-infect && rm -rf osp13-infect"'

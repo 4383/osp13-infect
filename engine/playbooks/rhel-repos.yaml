@@ -20,6 +20,7 @@
             # history navigation with arrows
             bind '"\e[A":history-search-backward'
             bind '"\e[B":history-search-forward'
+            source /usr/bin/containers.sh
           insertafter: EOF
         become: yes
       - name: install niet
