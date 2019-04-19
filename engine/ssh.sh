@@ -2,7 +2,7 @@
 set -x
 
 BASEDIR=$(pwd)
-function generate_ansible_host {
+function infect_generate_ansible_host {
     python ${BASEDIR}/ansible_host.py
 }
 
@@ -24,4 +24,4 @@ chmod 600 ~/.ssh/config
 
 nova list | grep controller > /tmp/controllers
 #
-generate_ansible_host
+infect_generate_ansible_host
