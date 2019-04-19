@@ -7,9 +7,8 @@ function infect_configure_containers_repos () {
     do
         current=$(pwd)
         cd /etc/
-        tar Ccf yum.repos.d/ | docker exec -i foo tar Cxf /etc/yum.repos.d/ -
+        tar -c -v -f - /etc/yum.repos.d | docker exec -i ${container} bash -c 'tar -x -v --strip-components 1 --directory=/etc/ ' -
         cd $current
-        docker exec -it ${container} test -d /usr/lib/python2.7/site-packages/oslo_${name} && echo ${container}
     done
 }
 
