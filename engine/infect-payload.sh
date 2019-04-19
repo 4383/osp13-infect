@@ -88,6 +88,28 @@ function infect_pcs_status_from_undercloud () {
     ssh -t ${name} 'sudo -i pcs status'
 }
 
+function infect_controller_status () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a controller name"
+        return 1
+    fi
+    name=$1
+    ssh -t ${name} 'sudo -i crm_simulate -sL'
+    ssh -t ${name} 'sudo -i crm_mon -1'
+}
+
+function infect_debug_rabbit () {
+    if [ $# -lt 2 ] 
+    then
+        echo "Please provide a controller name and a time since"
+        return 1
+    fi
+    name=$1
+    since=$2
+    ssh -t ${name} 'sudo -i journalctl --since ${since} | grep rabbitmq | less'
+}
+
 function infect_list_containers () {
     docker ps --format "{{.Names}}"
 }
