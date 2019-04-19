@@ -22,7 +22,7 @@ function infect_install_base_apps_on_containers () {
     done
 }
 
-function infect_install_base_apps_on_containers () {
+function infect_install_on_containers () {
     if [ $# -lt 2 ] 
     then
         echo "Please provide container name"
