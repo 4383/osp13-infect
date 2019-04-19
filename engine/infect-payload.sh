@@ -25,6 +25,7 @@ function infect_controller_ipmi_power_off () {
         echo "Please provide a chassis name"
         return 1
     fi
+    name=$1
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
     infect_controller_ipmi_status ${name}
@@ -41,6 +42,7 @@ function infect_controller_ipmi_power_on () {
         echo "Please provide a chassis name"
         return 1
     fi
+    name=$1
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
     infect_controller_ipmi_status ${name}
@@ -57,6 +59,7 @@ function infect_controller_ipmi_reboot () {
         echo "Please provide a chassis name"
         return 1
     fi
+    name=$1
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
     infect_controller_ipmi_status ${name}
@@ -69,6 +72,16 @@ function infect_controller_ipmi_reboot () {
         lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
         -U admin -R 12 -N 5 -Ppassword power on
     sleep 2
+}
+
+function infect_pcs_status_from_undercloud () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a controller name"
+        return 1
+    fi
+    name=$1
+    ssh -t ${name} 'su - bash -l -c pcs status'
 }
 
 function infect_list_containers () {
