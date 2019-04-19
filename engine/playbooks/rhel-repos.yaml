@@ -2,7 +2,7 @@
 - hosts: all
   tasks:
       - name: import docker utilities
-        copy: src=/home/stack/ops13-infect/engine/containers.sh dest=/usr/bin/containers.sh
+        copy: src=/home/stack/osp13-infect/engine/containers.sh dest=/usr/bin/containers.sh
         become: yes
       - name: make heat-admin shell more friendly
         blockinfile:
