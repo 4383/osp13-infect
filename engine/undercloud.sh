@@ -13,4 +13,4 @@ bind '"\e[B":history-search-forward'
 EOF
 
 
-ansible-playbook ${BASEDIR}/playbooks/rhel-repos.yaml
+ansible-playbook ${BASEDIR}/playbooks/rhel-repos.yaml -vvv
