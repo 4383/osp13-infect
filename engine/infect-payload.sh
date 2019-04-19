@@ -9,8 +9,8 @@ function infect_controller_ip_status () {
     info=$(niet "nodes[?name=='${name}']" /home/stack/instackenv.json)
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
-    echo "IPMI Contoller infos:\n\tname=${name}\n\taddress=${address}\n\tport=${port}"
-    echo "${info}"
+    echo -e "IPMI Contoller infos:\n\tname=${name}\n\taddress=${address}\n\tport=${port}"
+    echo -e "${info}"
     ipmitool \
         -I lanplus \
         -H ${address} \
