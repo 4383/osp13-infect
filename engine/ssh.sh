@@ -17,7 +17,6 @@ chmod 0700 ~/.ssh
 
 cat >> ~/.ssh/config <<EOF
 Host *
-  User heat-admin
   StrictHostkeyChecking no
   UserKnownHostsFile /dev/null
 EOF

@@ -10,11 +10,12 @@
             bind '"\e[A":history-search-backward'
             bind '"\e[B":history-search-forward'
           insertafter: EOF
-      - name: make containers more friendly
-        shell: |
-            for el in $(docker ps --format '{''{.Names}''}')
-            do
-                docker cp /etc/yum.repos.d/rhos-release-13.repo  $el:/etc/yum.repos.d/rhos-release-13.repo
-                docker cp /etc/yum.repos.d/rhos-release-rhel-7.6.repo $el:/etc/yum.repos.d/rhos-release-rhel-7.6.repo
-                docker exec -it $el
-            done
+          #- name: make containers more friendly
+          #  shell: |
+          #      for el in $(docker ps --format '{''{.Names}''}')
+          #      do
+          #          docker cp /etc/yum.repos.d/rhos-release-13.repo  $el:/etc/yum.repos.d/rhos-release-13.repo
+          #          docker cp /etc/yum.repos.d/rhos-release-rhel-7.6.repo $el:/etc/yum.repos.d/rhos-release-rhel-7.6.repo
+          #          tar c | docker exec -it <container> 'tar x'
+          #          docker exec -it $el
+          #      done
