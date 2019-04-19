@@ -5,11 +5,11 @@
         copy: src=/home/stack/osp13-infect/engine/infect-payload.sh dest=/usr/bin/infect-payload.sh
         become: yes
       - name: read bashrc
-        copy: src=/home/stack/osp13-infect/engine/bashrc dest=/home/bashrc
+        copy: src=/home/stack/osp13-infect/engine/bashrc dest=/home/heat-admin/bashrc
       - name: make heat-admin shell more friendly
-        shell: cat /home/bashrc >> /home/heat-admin/.bashrc
+        shell: cat /home/heat-admin/bashrc >> /home/heat-admin/.bashrc
       - name: make root heat-admin shell more friendly
-        shell: cat /home/bashrc >> /root/.bashrc
+        shell: cat /home/heat-admin/bashrc >> /root/.bashrc
         become: yes
       - name: install niet
         shell: |
