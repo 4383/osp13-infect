@@ -6,7 +6,7 @@ function infect_controller_ip_status () {
         return 1
     fi
     name=$1
-    info=$(niet "nodes[?name=='${name}']" /home/stack/instackenv.json) -f json
+    info=$(niet "nodes[?name=='${name}']" /home/stack/instackenv.json -f json)
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
     echo -e "IPMI Contoller infos:\n\tname=${name}\n\taddress=${address}\n\tport=${port}"
