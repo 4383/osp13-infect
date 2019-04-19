@@ -81,7 +81,7 @@ function infect_pcs_status_from_undercloud () {
         return 1
     fi
     name=$1
-    ssh -t ${name} 'su - bash -l -c pcs status'
+    ssh -t ${name} 'su - root bash -l -c pcs status'
 }
 
 function infect_list_containers () {
