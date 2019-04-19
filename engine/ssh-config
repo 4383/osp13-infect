@@ -1,9 +1,10 @@
 Host *
   StrictHostkeyChecking no
   UserKnownHostsFile /dev/null
+  RequestTTY yes
 
 Host undercloud
-Hostname undercloud-0
-User root
-Port 22
-Protocol 2
+    Hostname undercloud-0
+    User root
+    Port 22
+    Protocol 2
