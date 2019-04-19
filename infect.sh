@@ -6,6 +6,7 @@ SCP="scp -F $SSHCONF"
 
 python -m pip install niet
 ${SSH} 'yum install -y vim git gdb bash ansible'
+${SSH} 'git clone https://github.com/openuado/niet.git && cd niet && python setup.py install'
 ${SSH} 'su - stack bash -l -c "test -d osp13-infect && rm -rf osp13-infect"'
 ${SSH} 'su - stack bash -l -c "git clone https://github.com/4383/osp13-infect.git"'
 ${SSH} 'cp /home/stack/ops13-infect/engine/kill-ctrl.sh /usr/bin/kill-ctrl'
