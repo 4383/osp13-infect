@@ -5,7 +5,11 @@ SSH="ssh -t -F $SSHCONF undercloud"
 SCP="scp -F $SSHCONF"
 
 python -m pip install niet
-${SCP} engine/infect-payload.sh /usr/bin/infect-payload.sh
+if [ -f /usr/bin/infect-payload.sh ]; then
+    rm /usr/bin/infect-payload.sh
+fi
+cp engine/infect-payload.sh /usr/bin/infect-payload.sh
+${SCP} engine/infect-payload.sh undercloud:/usr/bin/infect-payload.sh
 ${SCP} engine/bashrc undercloud:/root/
 ${SSH} 'cat /root/bashrc >> ~/.bashrc'
 ${SSH} 'yum install -y vim git gdb bash ansible'
