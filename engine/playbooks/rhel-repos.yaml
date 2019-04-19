@@ -4,24 +4,12 @@
       - name: import docker utilities
         copy: src=/home/stack/osp13-infect/engine/infect-payload.sh dest=/usr/bin/infect-payload.sh
         become: yes
+      - name: read bashrc
+        copy: src=/home/stack/osp13-infect/engine/bashrc dest=/home/bashrc
       - name: make heat-admin shell more friendly
-        blockinfile:
-          path: ~/.bashrc
-          block: |
-            # history navigation with arrows
-            bind '"\e[A":history-search-backward'
-            bind '"\e[B":history-search-forward'
-            source /usr/bin/infect-payload.sh
-          insertafter: EOF
+        shell: cat /home/bashrc >> /home/heat-admin/.bashrc
       - name: make root heat-admin shell more friendly
-        blockinfile:
-          path: ~/.bashrc
-          block: |
-            # history navigation with arrows
-            bind '"\e[A":history-search-backward'
-            bind '"\e[B":history-search-forward'
-            source /usr/bin/infect-payload.sh
-          insertafter: EOF
+        shell: cat /home/bashrc >> /root/.bashrc
         become: yes
       - name: install niet
         shell: |
