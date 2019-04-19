@@ -18,9 +18,9 @@ function infect_configure_containers_repos () {
 function infect_install_base_apps_on_containers () {
     for container in $(infect_list_containers)
     do
-        docker exec --user root -it ${container} bash -c "yum install -y git"
-        docker exec --user root -it ${container} bash -c "yum install -y vim"
-        docker exec --user root -it ${container} bash -c "yum install -y gdb"
+        docker exec --user root -it ${container} bash -l -c "yum install -y git"
+        docker exec --user root -it ${container} bash -l -c "yum install -y vim"
+        docker exec --user root -it ${container} bash -l -c "yum install -y gdb"
     done
 }
 
