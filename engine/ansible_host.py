@@ -11,7 +11,8 @@ for controller in controllers.readlines():
     data_ansible_hosts.append("{name} ansible_host={ip} ansible_user=heat-admin".format(
         name=name, ip=ip))
     ## ssh
-    data_ssh_hosts.append("Host {name}\n\tUser heat-admin\n\tHostname {ip}\n\n".format(name, ip))
+    data_ssh_hosts.append("Host {name}\n\tUser heat-admin\n\tHostname {ip}\n\n".format(
+        name=name, ip=ip))
 controllers.close()
 
 #####
