@@ -9,8 +9,11 @@ function infect_controller_ipmi_status () {
     info=$(niet "nodes[?name=='${name}']" /home/stack/instackenv.json -f json)
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
-    echo -e "IPMI Contoller infos:\n\tname=${name}\n\taddress=${address}\n\tport=${port}"
-    echo -e "${info}"
+    if [ $# -lt 2 ] # minimal mode
+    then
+        echo -e "IPMI Contoller infos:\n\tname=${name}\n\taddress=${address}\n\tport=${port}"
+        echo -e "${info}"
+    fi
     ipmitool \
         -I lanplus \
         -H ${address} \
@@ -33,7 +36,7 @@ function infect_controller_ipmi_power_off () {
         lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
         -U admin -R 12 -N 5 -Ppassword power off
     sleep 2
-    infect_controller_ipmi_status ${name}
+    infect_controller_ipmi_status ${name} quiet
 }
 
 function infect_controller_ipmi_power_on () {
@@ -50,7 +53,7 @@ function infect_controller_ipmi_power_on () {
         lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
         -U admin -R 12 -N 5 -Ppassword power on
     sleep 2
-    infect_controller_ipmi_status ${name}
+    infect_controller_ipmi_status ${name} quiet
 }
 
 function infect_controller_ipmi_reboot () {
@@ -67,11 +70,12 @@ function infect_controller_ipmi_reboot () {
         lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
         -U admin -R 12 -N 5 -Ppassword power off
     sleep 2
-    infect_controller_ipmi_status ${name}
+    infect_controller_ipmi_status ${name} quiet
     ipmitool -I \
         lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
         -U admin -R 12 -N 5 -Ppassword power on
     sleep 2
+    infect_controller_ipmi_status ${name} quiet
 }
 
 function infect_pcs_status_from_undercloud () {
