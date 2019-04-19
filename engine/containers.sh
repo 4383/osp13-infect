@@ -5,6 +5,7 @@ function infect_list_containers () {
 function infect_configure_containers_repos () {
     for container in $(infect_list_containers)
     do
+        echo "Infect ${container}"
         current=$(pwd)
         cd /etc/
         tar -c -v -f - /etc/yum.repos.d | docker exec -i ${container} bash -c 'tar -x -v --strip-components 1 --directory=/etc/ ' -
