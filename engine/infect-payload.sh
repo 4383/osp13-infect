@@ -1,5 +1,5 @@
 #!/bin/sh
-function infect_controller_ip_status () {
+function infect_controller_ipmi_status () {
     if [ $# -eq 0 ] 
     then
         echo "Please provide a chassis name"
@@ -19,7 +19,7 @@ function infect_controller_ip_status () {
         -U admin -R 12 -N 5 -Ppassword power status
 }
 
-function infect_controller_ip_power_off () {
+function infect_controller_ipmi_power_off () {
     if [ $# -eq 0 ] 
     then
         echo "Please provide a chassis name"
@@ -27,13 +27,50 @@ function infect_controller_ip_power_off () {
     fi
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
-    infect_controller_ip_status ${name}
+    infect_controller_ipmi_status ${name}
     ipmitool -I \
         lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
         -U admin -R 12 -N 5 -Ppassword power off
     sleep 2
-    infect_controller_ip_status ${name}
+    infect_controller_ipmi_status ${name}
 }
+
+function infect_controller_ipmi_power_on () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a chassis name"
+        return 1
+    fi
+    address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
+    port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
+    infect_controller_ipmi_status ${name}
+    ipmitool -I \
+        lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
+        -U admin -R 12 -N 5 -Ppassword power on
+    sleep 2
+    infect_controller_ipmi_status ${name}
+}
+
+function infect_controller_ipmi_reboot () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a chassis name"
+        return 1
+    fi
+    address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
+    port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
+    infect_controller_ipmi_status ${name}
+    ipmitool -I \
+        lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
+        -U admin -R 12 -N 5 -Ppassword power off
+    sleep 2
+    infect_controller_ipmi_status ${name}
+    ipmitool -I \
+        lanplus -H ${address} -L ADMINISTRATOR -p ${port} \
+        -U admin -R 12 -N 5 -Ppassword power on
+    sleep 2
+}
+
 function infect_list_containers () {
     docker ps --format "{{.Names}}"
 }
