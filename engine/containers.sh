@@ -11,8 +11,6 @@ function find_oslo () {
     name=$1
     for container in $(list_containers)
     do
-        docker exec \
-            -it ${container} \
-            'test -d /usr/lib/python2.7/site-packages/oslo_${name} && echo ${container}'
+        docker exec -it ${container} test -d /usr/lib/python2.7/site-packages/oslo_${name} && echo ${container}
     done
 }
