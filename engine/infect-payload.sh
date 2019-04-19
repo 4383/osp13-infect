@@ -2,10 +2,10 @@
 function infect_controller_ip_status () {
     if [ $# -eq 0 ] 
     then
-        name=$1
-    else
         echo "Please provide a chassis name"
+        return 1
     fi
+    name=$1
     info=$(niet "nodes[?name=='${name}']" /home/stack/instackenv.json)
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
@@ -22,9 +22,8 @@ function infect_controller_ip_status () {
 function infect_controller_ip_power_off () {
     if [ $# -eq 0 ] 
     then
-        name=$1
-    else
         echo "Please provide a chassis name"
+        return 1
     fi
     address=$(niet "nodes[?name=='${name}'].pm_addr" /home/stack/instackenv.json)
     port=$(niet "nodes[?name=='${name}'].pm_port" /home/stack/instackenv.json)
