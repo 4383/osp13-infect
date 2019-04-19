@@ -38,3 +38,13 @@
           - gdb
           - git
         become: yes
+      - name: configure containers repos
+        shell: |
+            source /usr/bin/containers.sh
+            infect_configure_containers_repos
+        become: yes
+      - name: install containers apps
+        shell: |
+            source /usr/bin/containers.sh
+            infect_configure_containers_repos
+        become: yes
