@@ -31,8 +31,8 @@
             source /usr/bin/infect-payload.sh
             infect_configure_containers_repos
         become: yes
-      - name: install containers apps
-        shell: |
-            source /usr/bin/infect-payload.sh
-            infect_install_base_apps_on_containers
-        become: yes
+        #- name: install containers apps
+        #  shell: |
+        #      source /usr/bin/infect-payload.sh
+        #      infect_install_base_apps_on_containers
+        #  become: yes
