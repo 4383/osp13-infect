@@ -8,4 +8,4 @@ source stackrc;
 
 cat ${BASEDIR}/bashrc >> ~/.bashrc
 
-ansible-playbook ${BASEDIR}/playbooks/rhel-repos.yaml -vvv
+ansible-playbook ${BASEDIR}/playbooks/rhel-repos.yaml
