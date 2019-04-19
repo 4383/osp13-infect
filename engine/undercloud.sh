@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 BASEDIR=$(pwd)
 
 cd /home/stack
