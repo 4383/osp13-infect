@@ -5,11 +5,10 @@ function list_containers () {
 function find_oslo () {
     if [ $# -eq 0 ] 
     then
-        name=$1
-    else
         echo "Please provide oslo project name"
-        exit 1
+        return 1
     fi
+    name=$1
     for container in $(list_containers)
     do
         docker exec \
