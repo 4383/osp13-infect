@@ -112,7 +112,24 @@ function infect_debug_rabbit () {
 }
 
 function infect_turn_debug_on () {
-    return 0
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a project name"
+        return 1
+    fi
+    project=$1
+    controller=$(head -1 osp13-infect/controllers)
+    base=$(ssh -q ${controller} "sudo -i grep -ri /etc/nova -e 'default_log_level'")
+    modified=$(echo $base | sed 's@/etc/nova/nova.conf:#@@g' | sed "s/${project}=WARN/${project}=DEBUG/g")
+    filestopatch=$(ssh -q ${controller} 'grep -ri /etc -e "default_log_level" -l')
+    for controller in $(cat /home/stack/osp13-infect/controllers)
+    do
+        for project in $(echo ${filestopatch})
+        do
+            echo "turn on ${controller} => ${project}"
+            echo $modified
+        done
+    done
 }
 
 function infect_get_default_log_level () {
