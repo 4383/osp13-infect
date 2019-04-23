@@ -131,11 +131,13 @@ function infect_turn_all_services_debug_on () {
     do
         for project in $(echo ${filestopatch})
         do
-            echo "turn on ${control} => ${project}"
             group=$(ssh -q -t ${control} "sudo -i ls -la ${project}" | awk '{print $4}')
-            ssh -q ${control} "sudo -i chown root root ${project}"
+            echo "turn on ${control} => ${project}"
+            echo "using group => ${group}"
+            ssh -q ${control} "sudo -i chown root:root ${project}"
             ssh -q ${control} "sudo -i echo '${modified}' >> ${project}"
-            ssh -q ${control} "sudo -i chown root ${group} ${project}"
+            ssh -q ${control} "sudo -i chown root:${group} ${project}"
+            ssh -q ${control} "sudo -i ls -la ${project}"
         done
     done
 }
