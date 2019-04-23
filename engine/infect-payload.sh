@@ -85,7 +85,7 @@ function infect_pcs_status_from_undercloud () {
         return 1
     fi
     name=$1
-    ssh -t ${name} 'sudo -i pcs status'
+    ssh ${name} 'sudo -i pcs status'
 }
 
 function infect_controller_status () {
@@ -95,8 +95,8 @@ function infect_controller_status () {
         return 1
     fi
     name=$1
-    ssh -t ${name} 'sudo -i crm_simulate -sL'
-    ssh -t ${name} 'sudo -i crm_mon -1'
+    ssh ${name} 'sudo -i crm_simulate -sL'
+    ssh ${name} 'sudo -i crm_mon -1'
 }
 
 function infect_debug_rabbit () {
@@ -108,7 +108,7 @@ function infect_debug_rabbit () {
     name=$1
     since=$2
     echo "Debuging rabbit on ${name} since ${since}"
-    ssh -t ${name} "sudo -i journalctl --since ${since} | grep rabbitmq | less"
+    ssh ${name} "sudo -i journalctl --since ${since} | grep rabbitmq | less"
 }
 
 function infect_list_conf_files () {
@@ -164,7 +164,7 @@ function infect_get_default_log_level () {
     then
         project=$2
     fi
-    ssh -t ${name} "sudo -i grep -ri /etc/${project} -e 'default_log_level'"
+    ssh ${name} "sudo -i grep -ri /etc/${project} -e 'default_log_level'"
 }
 
 function infect_get_oslo_conf () {
@@ -179,7 +179,7 @@ function infect_get_oslo_conf () {
     then
         project=$2
     fi
-    ssh -t ${name} "sudo -i grep -ri /etc/${project} -e 'oslo'"
+    ssh ${name} "sudo -i grep -ri /etc/${project} -e 'oslo'"
 }
 
 function infect_list_containers () {
