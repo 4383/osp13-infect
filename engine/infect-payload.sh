@@ -127,7 +127,7 @@ function infect_turn_debug_on () {
         for project in $(echo ${filestopatch})
         do
             echo "turn on ${control} => ${project}"
-            ssh -q ${control} "sudo -i echo '${modified}' >> ${project}"
+            ssh -q -t ${control} "sudo -i echo '${modified}' >> ${project}"
         done
     done
 }
