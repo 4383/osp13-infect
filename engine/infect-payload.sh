@@ -99,6 +99,19 @@ function infect_controller_status () {
     ssh ${name} 'sudo -i crm_mon -1'
 }
 
+function infect_restore_config () {
+    filestopatch=$(infect_list_conf_files)
+    for control in $(cat /home/stack/osp13-infect/controllers)
+    do
+        for project in $(echo ${filestopatch})
+        do
+            echo "turn on ${control} => ${project}"
+            echo $modified
+            ssh -q ${control} "echo '${modified}' | sudo -i tee -a ${project}"
+        done
+    done
+}
+
 function infect_debug_rabbit () {
     if [ $# -lt 2 ]
     then
@@ -114,6 +127,21 @@ function infect_debug_rabbit () {
 function infect_list_conf_files () {
     controller=$(head -1 osp13-infect/controllers)
     ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l --exclude=*.backup'
+}
+
+
+function infect_restore_config () {
+    filestopatch=$(infect_list_conf_files)
+    for controller in $(cat /home/stack/osp13-infect/controllers)
+    do
+        backups=$(ssh -q ${controller} 'sudo -i find /etc/ -type f -iname *.backup 2>/dev/null')
+        for backup in ${backups}
+        do
+            echo "restore on ${controller} => ${project}"
+            original=$(echo ${backup} | sed 's@.backup@@g')
+            ssh -q ${controller} "sudo -i cp --preserve ${backup} ${original}"
+        done
+    done
 }
 
 function infect_turn_all_services_debug_on () {
@@ -145,7 +173,7 @@ function infect_conf_backup () {
         for project in $(echo ${filestopatch})
         do
             echo "backup on ${control} => ${project}"
-            ssh -q ${control} "sudo -i cp ${project} ${project}.backup"
+            ssh -q ${control} "sudo -i cp --preserve ${project} ${project}.backup"
             namedir=$(dirname ${project})
             ssh -q ${control} "sudo -i ls -la ${namedir}"
         done
