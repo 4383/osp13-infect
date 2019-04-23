@@ -121,7 +121,7 @@ function infect_turn_debug_on () {
     controller=$(head -1 osp13-infect/controllers)
     base=$(ssh -q ${controller} "sudo -i grep -ri /etc/nova -e 'default_log_level'")
     modified=$(echo $base | sed 's@/etc/nova/nova.conf:#@@g' | sed "s/${project}=WARN/${project}=DEBUG/g")
-    filestopatch=$(ssh -q ${controller} 'grep -ri /etc -e "default_log_level" -l')
+    filestopatch=$(ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l')
     for controller in $(cat /home/stack/osp13-infect/controllers)
     do
         for project in $(echo ${filestopatch})
