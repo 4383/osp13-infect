@@ -233,7 +233,7 @@ function infect_ssh () {
     controller=$1
     cmd=$2
     echo "Playing ${cmd} on ${controller}"
-    ssh -q ${controller} "sudo -i ${cmd}"
+    ssh -q -t ${controller} "sudo -i ${cmd}"
 }
 
 function infect_list_containers () {
