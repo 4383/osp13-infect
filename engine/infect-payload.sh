@@ -116,7 +116,7 @@ function infect_list_conf_files () {
     ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l --exclude=*.backup'
 }
 
-function infect_turn_debug_on () {
+function infect_turn_all_services_debug_on () {
     if [ $# -eq 0 ] 
     then
         echo "Please provide a project name"
