@@ -125,10 +125,24 @@ function infect_debug_rabbit () {
 }
 
 function infect_list_conf_files () {
-    controller=$(head -1 osp13-infect/controllers)
+    if [ $# -eq 0 ] 
+    then
+        controller=$(head -1 osp13-infect/controllers)
+    else
+        controller=$1
+    fi
     ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l --exclude=*.backup'
 }
 
+function infect_list_backup_files () {
+    if [ $# -eq 0 ] 
+    then
+        controller=$(head -1 osp13-infect/controllers)
+    else
+        controller=$1
+    fi
+    ssh -q ${controller} 'sudo -i find /etc/ -type f -iname *.backup 2>/dev/null'
+}
 
 function infect_restore_config () {
     filestopatch=$(infect_list_conf_files)
