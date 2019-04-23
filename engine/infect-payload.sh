@@ -224,6 +224,17 @@ function infect_get_oslo_conf () {
     ssh ${name} "sudo -i grep -ri /etc/${project} -e 'oslo'"
 }
 
+function infect_ssh () {
+    if [ $# -lt 2 ] 
+    then
+        echo "Please provide a controller name and a command to play"
+        return 1
+    fi
+    controller=$1
+    cmd=$2
+    ssh -q ${controller} "sudo -i ${cmd}"
+}
+
 function infect_list_containers () {
     docker ps --format "{{.Names}}"
 }
