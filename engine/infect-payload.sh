@@ -232,6 +232,7 @@ function infect_ssh () {
     fi
     controller=$1
     cmd=$2
+    echo "Playing ${cmd} on ${controller}"
     ssh -q ${controller} "sudo -i ${cmd}"
 }
 
