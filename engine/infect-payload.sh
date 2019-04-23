@@ -124,20 +124,15 @@ function infect_turn_all_services_debug_on () {
     fi
     project=$1
     controller=$(head -1 osp13-infect/controllers)
-    base=$(ssh -q ${controller} "sudo -i grep -ri /etc/nova -e 'default_log_level'")
+    base=$(ssh -q ${controller} "sudo -i grep -ri /etc/nova -e 'default_log_level --exclude=*.backup'")
     modified=$(echo $base | sed 's@/etc/nova/nova.conf:#@@g' | sed "s/${project}=WARN/${project}=DEBUG/g")
     filestopatch=$(infect_list_conf_files)
     for control in $(cat /home/stack/osp13-infect/controllers)
     do
         for project in $(echo ${filestopatch})
         do
-            group=$(ssh -q ${control} "sudo -i ls -la ${project}" | awk '{print $4}')
             echo "turn on ${control} => ${project}"
-            echo "using group => ${group}"
-            #ssh -q ${control} "sudo -i chown root:root ${project}"
             ssh -q ${control} "echo '${modified}' | sudo -i tee -a ${project}"
-            #ssh -q ${control} "sudo -i chown root:${group} ${project}"
-            #ssh -q ${control} "sudo -i ls -la ${project}"
         done
     done
 }
