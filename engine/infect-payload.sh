@@ -127,7 +127,29 @@ function infect_turn_debug_on () {
         for project in $(echo ${filestopatch})
         do
             echo "turn on ${control} => ${project}"
+            group=$(ssh -q -t ${control} "sudo -i ls -la ${project}" | awk '{print $4}')
+            ssh -q -t ${control} "sudo -i chown root:root ${project}"
             ssh -q -t ${control} "sudo -i echo '${modified}' >> ${project}"
+            ssh -q -t ${control} "sudo -i chown root:${group} ${project}"
+        done
+    done
+}
+
+function infect_conf_backup () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a project name"
+        return 1
+    fi
+    project=$1
+    controller=$(head -1 osp13-infect/controllers)
+    filestopatch=$(ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l')
+    for control in $(cat /home/stack/osp13-infect/controllers)
+    do
+        for project in $(echo ${filestopatch})
+        do
+            echo "backup on ${control} => ${project}"
+            ssh -q -t ${control} "sudo -i cp ${project} ${project}.backup"
         done
     done
 }
