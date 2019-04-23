@@ -149,7 +149,9 @@ function infect_conf_backup () {
         for project in $(echo ${filestopatch})
         do
             echo "backup on ${control} => ${project}"
-            ssh -q -t ${control} "sudo -i cp ${project} ${project}.backup"
+            ssh -q ${control} "sudo -i cp ${project} ${project}.backup"
+            namedir=$(dirname ${project})
+            ssh -q ${control} "sudo -i ls -la ${namedir}"
         done
     done
 }
