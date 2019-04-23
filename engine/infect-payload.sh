@@ -132,6 +132,7 @@ function infect_turn_all_services_debug_on () {
         for project in $(echo ${filestopatch})
         do
             echo "turn on ${control} => ${project}"
+            echo $modified
             ssh -q ${control} "echo '${modified}' | sudo -i tee -a ${project}"
         done
     done
