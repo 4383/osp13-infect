@@ -134,10 +134,10 @@ function infect_turn_all_services_debug_on () {
             group=$(ssh -q ${control} "sudo -i ls -la ${project}" | awk '{print $4}')
             echo "turn on ${control} => ${project}"
             echo "using group => ${group}"
-            ssh -q ${control} "sudo -i chown root:root ${project}"
-            ssh -q ${control} "sudo -i set -x echo '${modified}' >> ${project}"
-            ssh -q ${control} "sudo -i chown root:${group} ${project}"
-            ssh -q ${control} "sudo -i ls -la ${project}"
+            #ssh -q ${control} "sudo -i chown root:root ${project}"
+            ssh -q ${control} "echo '${modified}' | sudo -i tee -a ${project}"
+            #ssh -q ${control} "sudo -i chown root:${group} ${project}"
+            #ssh -q ${control} "sudo -i ls -la ${project}"
         done
     done
 }
