@@ -135,7 +135,7 @@ function infect_turn_all_services_debug_on () {
             echo "turn on ${control} => ${project}"
             echo "using group => ${group}"
             ssh -q ${control} "sudo -i chown root:root ${project}"
-            ssh -q ${control} "sudo -i echo '${modified}' >> ${project}"
+            ssh -q ${control} "sudo -i set -x echo '${modified}' >> ${project}"
             ssh -q ${control} "sudo -i chown root:${group} ${project}"
             ssh -q ${control} "sudo -i ls -la ${project}"
         done
