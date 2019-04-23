@@ -1,4 +1,5 @@
 controllers_file = "/tmp/controllers"
+all_controllers = []
 data_ssh_hosts = []
 data_ansible_hosts = []
 controllers =  open(controllers_file, "r")
@@ -13,6 +14,7 @@ for controller in controllers.readlines():
     ## ssh
     data_ssh_hosts.append("Host {name}\n\tUser heat-admin\n\tHostname {ip}\n\n".format(
         name=name, ip=ip))
+    all_controllers.append(name)
 controllers.close()
 
 #####
@@ -25,3 +27,6 @@ controllers.close()
 with open("/home/stack/.ssh/config", "a+") as conf:
     for el in data_ssh_hosts:
         conf.write(el)
+
+with open("/home/stack/osp13-infect/controllers", "w+") as controllers:
+    controllers.write("\n".join(all_controllers))

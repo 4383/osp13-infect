@@ -100,14 +100,49 @@ function infect_controller_status () {
 }
 
 function infect_debug_rabbit () {
-    if [ $# -lt 2 ] 
+    if [ $# -lt 2 ]
     then
         echo "Please provide a controller name and a time since"
         return 1
     fi
     name=$1
     since=$2
-    ssh -t ${name} 'sudo -i journalctl --since ${since} | grep rabbitmq | less'
+    echo "Debuging rabbit on ${name} since ${since}"
+    ssh -t ${name} "sudo -i journalctl --since ${since} | grep rabbitmq | less"
+}
+
+function infect_turn_debug_on () {
+    return 0
+}
+
+function infect_get_default_log_level () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a controller name"
+        return 1
+    fi
+    name=$1
+    project=""
+    if [ $# -gt 1 ]
+    then
+        project=$2
+    fi
+    ssh -t ${name} "sudo -i grep -ri /etc/${project} -e 'default_log_level'"
+}
+
+function infect_get_oslo_conf () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a controller name"
+        return 1
+    fi
+    name=$1
+    project=""
+    if [ $# -gt 1 ]
+    then
+        project=$2
+    fi
+    ssh -t ${name} "sudo -i grep -ri /etc/${project} -e 'oslo'"
 }
 
 function infect_list_containers () {
