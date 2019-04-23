@@ -136,14 +136,8 @@ function infect_turn_debug_on () {
 }
 
 function infect_conf_backup () {
-    if [ $# -eq 0 ] 
-    then
-        echo "Please provide a project name"
-        return 1
-    fi
-    project=$1
     controller=$(head -1 osp13-infect/controllers)
-    filestopatch=$(ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l')
+    filestopatch=$(ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l --ignore-file=*.backup')
     for control in $(cat /home/stack/osp13-infect/controllers)
     do
         for project in $(echo ${filestopatch})
