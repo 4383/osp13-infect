@@ -113,7 +113,7 @@ function infect_debug_rabbit () {
 
 function infect_list_conf_files () {
     controller=$(head -1 osp13-infect/controllers)
-    ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l --ignore-file=*.backup'
+    ssh -q ${controller} 'sudo -i grep -ri /etc -e "default_log_level" -l --exclude=*.backup'
 }
 
 function infect_turn_debug_on () {
