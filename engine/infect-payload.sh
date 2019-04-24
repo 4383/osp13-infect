@@ -259,7 +259,12 @@ function infect_find_containers () {
     fi
     controller=$1
     container=$2
-    ssh -q -t ${controller} "sudo -i docker ps --format '{{.Names}}' | grep -E \"${container}\""
+    if [ $# -eq 3 ] 
+    then
+        ssh -q -t ${controller} "sudo -i docker ps | grep -E \"${container}\""
+    else
+        ssh -q -t ${controller} "sudo -i docker ps --format '{{.Names}}' | grep -E \"${container}\""
+    fi
 }
 
 function infect_restart_containers () {
