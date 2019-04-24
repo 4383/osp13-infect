@@ -158,6 +158,27 @@ function infect_restore_config () {
     done
 }
 
+function infect_retrieve_rabbit () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a controller name"
+        return 1
+    fi
+    name=$1
+    ssh ${name} 'sudo -i docker ps "{{.Names}}" | grep rabbit'
+}
+
+function infect_rabbitmq_cluster_status () {
+    if [ $# -eq 0 ] 
+    then
+        controller=$(head -1 osp13-infect/controllers)
+    else
+        controller=$1
+    fi
+    rabbit=$(infect_retrieve_rabbit ${controller})
+    ssh -q ${controller} "sudo -i docker exec -it ${rabbit} rabbitmqctl cluster_status"
+}
+
 function infect_turn_all_services_debug_on () {
     if [ $# -eq 0 ] 
     then
