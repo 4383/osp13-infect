@@ -270,7 +270,7 @@ function infect_restart_containers () {
     fi
     controller=$1
     containers=$2
-    for container in $(infect_find_containers ${containers})
+    for container in $(infect_find_containers "${controller}" "${containers}")
     do
         ssh -q -t ${controller} "sudo -i docker restart ${container}"
     done
