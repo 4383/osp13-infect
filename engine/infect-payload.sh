@@ -240,6 +240,31 @@ function infect_list_containers () {
     docker ps --format "{{.Names}}"
 }
 
+function infect_find_containers () {
+    if [ $# -lt 2 ] 
+    then
+        echo "Please provide a controller name and a command to play"
+        return 1
+    fi
+    controller=$1
+    container=$2
+    ssh -q -t ${controller} "docker ps --format '{{.Names}}' | grep -E \"${container}\""
+}
+
+function infect_restart_containers () {
+    if [ $# -lt 2 ] 
+    then
+        echo "Please provide a controller name and a command to play"
+        return 1
+    fi
+    controller=$1
+    containers=$2
+    for container in $(infect_find_containers ${containers})
+    do
+        ssh -q -t ${controller} "docker restart ${container}"
+    done
+}
+
 function infect_configure_containers_repos () {
     for container in $(infect_list_containers)
     do
