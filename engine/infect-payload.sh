@@ -165,7 +165,7 @@ function infect_retrieve_rabbit () {
         return 1
     fi
     name=$1
-    ssh ${name} 'sudo -i docker ps "{{.Names}}" | grep rabbit'
+    ssh ${name} 'sudo -i docker ps --format "{{.Names}}" | grep rabbit'
 }
 
 function infect_rabbitmq_cluster_status () {
@@ -176,6 +176,7 @@ function infect_rabbitmq_cluster_status () {
         controller=$1
     fi
     rabbit=$(infect_retrieve_rabbit ${controller})
+    echo "Analyzing ${rabbit} on ${controller}"
     ssh -q ${controller} "sudo -i docker exec -it ${rabbit} rabbitmqctl cluster_status"
 }
 
