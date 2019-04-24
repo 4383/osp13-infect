@@ -236,6 +236,17 @@ function infect_ssh () {
     ssh -q -t ${controller} "sudo -i ${cmd}"
 }
 
+function infect_find_logs () {
+    if [ $# -lt 1 ] 
+    then
+        echo "Please provide a controller name and a message to find"
+        return 1
+    fi
+    controller=$1
+    msg=$2
+    ssh -q -t ${controller} "sudo -i grep -ri /var/log/containers -e \"${msg}\""
+}
+
 function infect_list_containers () {
     docker ps --format "{{.Names}}"
 }
@@ -243,7 +254,7 @@ function infect_list_containers () {
 function infect_find_containers () {
     if [ $# -lt 2 ] 
     then
-        echo "Please provide a controller name and a command to play"
+        echo "Please provide a controller name and container name"
         return 1
     fi
     controller=$1
@@ -254,7 +265,7 @@ function infect_find_containers () {
 function infect_restart_containers () {
     if [ $# -lt 2 ] 
     then
-        echo "Please provide a controller name and a command to play"
+        echo "Please provide a controller name and a container name"
         return 1
     fi
     controller=$1
