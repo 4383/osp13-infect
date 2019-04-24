@@ -248,7 +248,7 @@ function infect_find_containers () {
     fi
     controller=$1
     container=$2
-    ssh -q -t ${controller} "docker ps --format '{{.Names}}' | grep -E \"${container}\""
+    ssh -q -t ${controller} "sudo -i docker ps --format '{{.Names}}' | grep -E \"${container}\""
 }
 
 function infect_restart_containers () {
@@ -261,7 +261,7 @@ function infect_restart_containers () {
     containers=$2
     for container in $(infect_find_containers ${containers})
     do
-        ssh -q -t ${controller} "docker restart ${container}"
+        ssh -q -t ${controller} "sudo -i docker restart ${container}"
     done
 }
 
