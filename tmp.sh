@@ -2,3 +2,5 @@
 
 for el in $(infect_who_use_oslo messaging); do name=$(echo $el | awk -F "_" '{print $1}'); echo -e "patch ${name}\n"; docker exec -it --user root ${el} cp /var/log/${name}/impl_rabbit.py /usr/lib/python2.7/site-packages/oslo_messaging/_drivers; docker restart ${el}; done
 
+ for el in $(ls /var/log/containers); do cp -v /var/log/containers/nova/impl_rabbit.py /var/log/containers/${el}; done
+
