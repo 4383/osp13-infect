@@ -14,6 +14,7 @@ function infect_remove_logs_archives_on_all_controllers () {
     do
         for file in $(infect_find_log_archives_on_controller ${controller})
         do
+            echo "remove ${file} on ${controller}"
             ssh -q ${controller} "sudo -i rm -rf ${file}"
         done
     done
