@@ -1,8 +1,21 @@
 #!/bin/sh
-function infect_remove_logs_archives_on_all_containers () {
+function infect_find_log_archives_on_controller () {
+    if [ $# -eq 0 ] 
+    then
+        echo "Please provide a controller name"
+        return 1
+    fi
+    controller=$1
+    ssh -q ${controller} 'sudo -i find /var/log/containers/ -type f -iname *.log.*'
+}
+
+function infect_remove_logs_archives_on_all_controllers () {
     for controller in $(cat /home/stack/osp13-infect/controllers)
     do
-        ssh -q ${controller} 'sudo -i find /var/log/containers/ -type f -iname *.log.*.gz -exec rm {} \;'
+        for file in $(infect_find_log_archives_on_controller ${controller})
+        do
+            ssh -q ${controller} "sudo -i rm rf ${file}"
+        done
     done
 }
 
