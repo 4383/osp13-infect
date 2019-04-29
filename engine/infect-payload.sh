@@ -1,4 +1,11 @@
 #!/bin/sh
+function infect_remove_logs_archives_on_all_containers () {
+    for controller in $(cat /home/stack/osp13-infect/controllers)
+    do
+        ssh -q ${controller} 'sudo -i find /var/log/containers/ -type f -iname *.log.*.gz -exec rm {} \;'
+    done
+}
+
 function infect_controller_ipmi_status () {
     if [ $# -eq 0 ] 
     then
