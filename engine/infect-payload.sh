@@ -338,6 +338,29 @@ function infect_configure_containers_repos () {
     done
 }
 
+function infect_install_pip_on_container () {
+    if [ $# -lt 1 ] 
+    then
+        echo "Please provide container name"
+        return 1
+    fi
+    container=$1
+    docker exec --user root -it ${container} 'echo -e "scopev4 ::ffff:169.254.0.0/112  2\nscopev4 ::ffff:127.0.0.0/104    2\nscopev4 ::ffff:0.0.0.0/96       14\nprecedence ::ffff:0:0/96 100" > /etc/gai.conf'
+    docker exec --user root -it ${container} 'curl https://bootstrap.pypa.io/get-pip.py -o /tmp/get-pip.py'
+    docker exec --user root -it ${container} 'python /tmp/get-pip.py'
+}
+
+function infect_pip_install_on_container () {
+    if [ $# -lt 2 ] 
+    then
+        echo "Please provide container name and a module to install with pip"
+        return 1
+    fi
+    container=$1
+    module=$2
+    docker exec --user root -it ${container} "pip install ${$module}"
+}
+
 function infect_install_base_apps_on_containers () {
     for container in $(infect_list_containers)
     do
